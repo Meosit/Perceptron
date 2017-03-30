@@ -3,19 +3,36 @@ package by.mksn.miapr
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
-import java.util.*
 import javax.imageio.ImageIO
 
 fun main(args: Array<String>) {
     println("Reading images...")
-    val images = (0..19).map { PictureImage("$it.jpg", if (it < 10) 1 else 0) }
-    println("Perceptron training...")
-    val perceptron = Perceptron(imagePixelCount = 100, iterationCount = 10000000)
-    perceptron.train(images)
-    drawWeightMap(perceptron.weights)
-    println("Weights: ${Arrays.toString(perceptron.weights)}")
-    println("Is positive test passed: ${perceptron.isTargetImage(PictureImage("test/positive.jpg", 1))}")
-    println("Is negative test passed: ${perceptron.isTargetImage(PictureImage("test/negative.jpg", 0))}")
+    val s1Images = ((0..3).map { PictureImage("new/0$it.jpg", 1) })
+    val n1Images = ((0..3).map { PictureImage("new/1$it.jpg", 0) })
+    val t1Images = ((0..3).map { PictureImage("new/2$it.jpg", 0) })
+    val s2Images = ((0..3).map { PictureImage("new/0$it.jpg", 0) })
+    val n2Images = ((0..3).map { PictureImage("new/1$it.jpg", 1) })
+    val t2Images = ((0..3).map { PictureImage("new/2$it.jpg", 0) })
+    val s3Images = ((0..3).map { PictureImage("new/0$it.jpg", 0) })
+    val n3Images = ((0..3).map { PictureImage("new/1$it.jpg", 0) })
+    val t3Images = ((0..3).map { PictureImage("new/2$it.jpg", 1) })
+
+    val sImages = s1Images + n1Images + t1Images
+    val nImages = s2Images + n2Images + t2Images
+    val tImages = s3Images + n3Images + t3Images
+
+    val perceptron1 = Perceptron(imagePixelCount = 36, iterationCount = 10000000)
+    val perceptron2 = Perceptron(imagePixelCount = 36, iterationCount = 10000000)
+    val perceptron3 = Perceptron(imagePixelCount = 36, iterationCount = 10000000)
+    println("Perceptron 1 training...")
+    perceptron1.train(sImages)
+    println("Perceptron 2 training...")
+    perceptron2.train(nImages)
+    println("Perceptron 3 training...")
+    perceptron3.train(tImages)
+    println("Is positive test passed (S): ${perceptron1.isTargetImage(PictureImage("new/s-test.jpg", 1))}")
+    println("Is positive test passed (N): ${perceptron2.isTargetImage(PictureImage("new/n-test.jpg", 1))}")
+    println("Is positive test passed (T): ${perceptron3.isTargetImage(PictureImage("new/t-test.jpg", 1))}")
 }
 
 fun drawWeightMap(weights: IntArray) {

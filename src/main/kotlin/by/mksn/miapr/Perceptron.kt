@@ -23,7 +23,7 @@ fun imageToPixelArray(fileName: String): IntArray {
     return pixels
 }
 
-data class PictureImage(val pixelArray: IntArray, val isTargetImage: Int) {
+data class PictureImage(val pixelArray: IntArray, var isTargetImage: Int) {
     constructor(fileName: String, targetImageProbability: Int) :
             this(imageToPixelArray(fileName), targetImageProbability)
 
